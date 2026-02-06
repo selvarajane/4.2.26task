@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4.2.26 Task – Python 50 Exercises</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #0f172a, #020617 55%);
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(145deg, #020617, #020617 40%, #0b1220);
+      border-radius: 18px;
+      padding: 2rem 2.5rem;
+      box-shadow:
+        0 22px 45px rgba(15, 23, 42, 0.9),
+        0 0 0 1px rgba(148, 163, 184, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 1.5rem 1.25rem;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(15, 118, 110, 0.2);
+      color: #5eead4;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      margin-bottom: 0.9rem;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #5eead4;
+      box-shadow: 0 0 12px rgba(45, 212, 191, 0.9);
+    }
+
+    h1 {
+      font-size: clamp(1.7rem, 3vw, 2.1rem);
+      margin-bottom: 0.4rem;
+      font-weight: 650;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .subtitle strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.6fr);
+      gap: 1.75rem;
+      margin-top: 1.25rem;
+    }
+
+    @media (max-width: 800px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, #020617, #020617 55%);
+      border-radius: 14px;
+      padding: 1.1rem 1.1rem 1.05rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.7rem;
+      gap: 0.5rem;
+    }
+
+    .panel-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e5e7eb;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #9ca3af;
+    }
+
+    .tasks-list {
+      list-style: none;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 0.25rem;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: #d1d5db;
+    }
+
+    .tasks-list li {
+      display: flex;
+      gap: 0.55rem;
+      padding: 0.24rem 0;
+      border-bottom: 1px dashed rgba(31, 41, 55, 0.7);
+    }
+
+    .tasks-list li:last-child {
+      border-bottom: none;
+    }
+
+    .task-number {
+      flex-shrink: 0;
+      width: 1.7rem;
+      text-align: right;
+      color: #6b7280;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .task-text {
+      flex: 1;
+    }
+
+    .info-list {
+      list-style: none;
+      font-size: 0.86rem;
+      color: #d1d5db;
+      display: grid;
+      gap: 0.45rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .info-list strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .code-block {
+      background: #020617;
+      border-radius: 10px;
+      padding: 0.75rem 0.8rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+      margin-bottom: 0.9rem;
+      white-space: pre-wrap;
+    }
+
+    .code-keyword {
+      color: #60a5fa;
+    }
+
+    .code-func {
+      color: #a855f7;
+    }
+
+    .code-string {
+      color: #f97316;
+    }
+
+    .code-comment {
+      color: #6b7280;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      color: #022c22;
+      box-shadow:
+        0 12px 25px rgba(22, 163, 74, 0.5),
+        0 0 0 1px rgba(22, 101, 52, 0.7);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 30px rgba(22, 163, 74, 0.6),
+        0 0 0 1px rgba(34, 197, 94, 0.9);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(15, 23, 42, 1);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    .btn span {
+      font-size: 0.85rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #9ca3af;
+      margin-top: 0.2rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Python Practice · 50 Tasks
+    </div>
+
+    <h1>4.2.26 – Python Practice Exercises</h1>
+    <p class="subtitle">
+      This project contains <strong>50 beginner‑friendly Python programs</strong>
+      (input/output, loops, strings, functions, and small mini‑projects like a
+      calculator and ATM). Vercel is hosting this <strong>overview page</strong>,
+      while the actual Python code runs in your local terminal.
+    </p>
+
+    <section class="layout">
+      <section class="panel">
+        <header class="panel-header">
+          <h2 class="panel-title">List of Exercises</h2>
+          <span class="chip">python_exercises.py · 1–50</span>
+        </header>
+        <ul class="tasks-list" aria-label="List of 50 Python exercises">
+          <li><span class="task-number">01.</span><span class="task-text">Get user name and age as input and print them.</span></li>
+          <li><span class="task-number">02.</span><span class="task-text">Input two numbers and print their sum.</span></li>
+          <li><span class="task-number">03.</span><span class="task-text">Convert an integer to a float.</span></li>
+          <li><span class="task-number">04.</span><span class="task-text">Concatenate a string and a number using type casting.</span></li>
+          <li><span class="task-number">05.</span><span class="task-text">Store different datatypes and print their types using <code>type()</code>.</span></li>
+          <li><span class="task-number">06.</span><span class="task-text">Addition, subtraction, multiplication, and division of two numbers.</span></li>
+          <li><span class="task-number">07.</span><span class="task-text">Check whether a given number is even or odd.</span></li>
+          <li><span class="task-number">08.</span><span class="task-text">Find the larger of two numbers using the ternary operator.</span></li>
+          <li><span class="task-number">09.</span><span class="task-text">Check if a number is divisible by both 3 and 5.</span></li>
+          <li><span class="task-number">10.</span><span class="task-text">Demonstrate increment and decrement operations.</span></li>
+          <li><span class="task-number">11.</span><span class="task-text">Input marks and print pass or fail.</span></li>
+          <li><span class="task-number">12.</span><span class="task-text">Input age and check voting eligibility.</span></li>
+          <li><span class="task-number">13.</span><span class="task-text">Input temperature and print hot / normal / cold.</span></li>
+          <li><span class="task-number">14.</span><span class="task-text">Check whether a number is positive, negative, or zero.</span></li>
+          <li><span class="task-number">15.</span><span class="task-text">Create a simple calculator using <code>if‑elif</code>.</span></li>
+          <li><span class="task-number">16.</span><span class="task-text">Print numbers from 1 to 10 using a loop.</span></li>
+          <li><span class="task-number">17.</span><span class="task-text">Print numbers from 10 to 1 in reverse order.</span></li>
+          <li><span class="task-number">18.</span><span class="task-text">Print the multiplication table of a given number.</span></li>
+          <li><span class="task-number">19.</span><span class="task-text">Calculate the sum of first <em>n</em> natural numbers.</span></li>
+          <li><span class="task-number">20.</span><span class="task-text">Count how many even numbers are between 1 and 50.</span></li>
+          <li><span class="task-number">21.</span><span class="task-text">Find the length of a string.</span></li>
+          <li><span class="task-number">22.</span><span class="task-text">Convert a string to uppercase and lowercase.</span></li>
+          <li><span class="task-number">23.</span><span class="task-text">Count the number of vowels in a string.</span></li>
+          <li><span class="task-number">24.</span><span class="task-text">Check whether a string is a palindrome.</span></li>
+          <li><span class="task-number">25.</span><span class="task-text">Calculate tax based on salary slabs.</span></li>
+          <li><span class="task-number">26.</span><span class="task-text">Create an electricity bill calculator.</span></li>
+          <li><span class="task-number">27.</span><span class="task-text">Check whether a year is a leap year.</span></li>
+          <li><span class="task-number">28.</span><span class="task-text">Find the largest of three numbers.</span></li>
+          <li><span class="task-number">29.</span><span class="task-text">Print grade (A, B, C, Fail) based on marks.</span></li>
+          <li><span class="task-number">30.</span><span class="task-text">Find the factorial of a number using a loop.</span></li>
+          <li><span class="task-number">31.</span><span class="task-text">Print the Fibonacci series.</span></li>
+          <li><span class="task-number">32.</span><span class="task-text">Check whether a number is prime.</span></li>
+          <li><span class="task-number">33.</span><span class="task-text">Print all prime numbers between 1 and 100.</span></li>
+          <li><span class="task-number">34.</span><span class="task-text">Count the number of digits in a given number.</span></li>
+          <li><span class="task-number">35.</span><span class="task-text">Count the number of words in a sentence.</span></li>
+          <li><span class="task-number">36.</span><span class="task-text">Find the frequency of each character in a string.</span></li>
+          <li><span class="task-number">37.</span><span class="task-text">Remove all spaces from a string.</span></li>
+          <li><span class="task-number">38.</span><span class="task-text">Replace all vowels in a string with <code>*</code>.</span></li>
+          <li><span class="task-number">39.</span><span class="task-text">Find the longest word in a sentence.</span></li>
+          <li><span class="task-number">40.</span><span class="task-text">Function to add two numbers.</span></li>
+          <li><span class="task-number">41.</span><span class="task-text">Function to calculate factorial.</span></li>
+          <li><span class="task-number">42.</span><span class="task-text">Reverse a string using a function.</span></li>
+          <li><span class="task-number">43.</span><span class="task-text">Function to check whether a number is prime.</span></li>
+          <li><span class="task-number">44.</span><span class="task-text">Function to count vowels in a string.</span></li>
+          <li><span class="task-number">45.</span><span class="task-text">Simple ATM simulation (check balance, deposit, withdraw).</span></li>
+          <li><span class="task-number">46.</span><span class="task-text">Login system using username and password validation.</span></li>
+          <li><span class="task-number">47.</span><span class="task-text">Menu‑driven calculator using functions.</span></li>
+          <li><span class="task-number">48.</span><span class="task-text">Student marks: total, average, and grade using functions.</span></li>
+          <li><span class="task-number">49.</span><span class="task-text">Password strength checker.</span></li>
+          <li><span class="task-number">50.</span><span class="task-text">Reverse a string.</span></li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <header class="panel-header">
+          <h2 class="panel-title">How to Run the Programs</h2>
+          <span class="chip">Local terminal · Python 3</span>
+        </header>
+
+        <ul class="info-list">
+          <li>
+            <strong>1. Clone the repo</strong><br />
+            Open a terminal and run:
+            <div class="code-block">
+              <span class="code-keyword">git</span> clone
+              <span class="code-string">https://github.com/selvarajane/4.2.26task.git</span>
+            </div>
+          </li>
+          <li>
+            <strong>2. Run the menu program</strong><br />
+            Inside the project folder:
+            <div class="code-block">
+              <span class="code-comment"># Windows (PowerShell / CMD)</span><br />
+              <span class="code-keyword">python</span> python_exercises.py
+            </div>
+            This opens a <strong>menu</strong> where you can choose any task
+            number (1–50) and see its output directly in the terminal.
+          </li>
+          <li>
+            <strong>3. Why you don't see Python I/O here</strong><br />
+            Vercel hosts this <strong>static HTML page</strong>. The
+            interactive parts of your project (inputs, loops, ATM, calculator,
+            etc.) are written in Python and therefore run
+            <strong>on your machine</strong>, not in the browser.
+          </li>
+        </ul>
+
+        <div class="code-block" aria-label="Example snippet from python_exercises.py">
+          <span class="code-comment"># Example: Task 2 – sum of two numbers</span><br />
+          <span class="code-keyword">def</span> <span class="code-func">task2</span>():<br />
+          &nbsp;&nbsp;num1 = <span class="code-keyword">float</span>(<span class="code-string">"Enter first number: "</span>)<br />
+          &nbsp;&nbsp;num2 = <span class="code-keyword">float</span>(<span class="code-string">"Enter second number: "</span>)<br />
+          &nbsp;&nbsp;<span class="code-keyword">print</span>(<span class="code-string">"Sum:"</span>, num1 + num2)
+        </div>
+
+        <div class="links">
+          <a
+            href="https://github.com/selvarajane/4.2.26task"
+            class="btn btn-primary"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>View code on GitHub</span>
+          </a>
+          <span class="pill">
+            <span class="dot"></span>
+            Deployed on Vercel – static overview
+          </span>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
